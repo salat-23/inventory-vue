@@ -25,7 +25,6 @@ import sidebarImg from "../assets/sidebarimg.png"
 
 <style scoped lang="scss">
 .sidebar {
-  max-width: 236px;
   .sidebar_image {
     img {
       width: 100%;

@@ -6,10 +6,10 @@ const width = 5;
 let updateListTrigger = ref(true);
 // hash of items - position: object
 const items = reactive({
-  0: {id: 1, type: "green", position: 0},
-  1: {id: 2, type: "red", position: 1},
-  3: {id: 3, type: "blue", position: 3},
-  4: {id: 4, type: "red", position: 4}
+  0: {id: 1, type: "green", amount: 3, position: 0},
+  1: {id: 2, type: "red", amount: 1, position: 1},
+  3: {id: 3, type: "blue", amount: 2, position: 3},
+  4: {id: 4, type: "red", amount: 7, position: 4}
 });
 const rows = computed(() => {
   const rows = [];
@@ -73,7 +73,6 @@ const onDrop = function (event, item) {
               draggable="true"
               :class="'item '+item.type"
               @dragstart="startDrag($event, item)">
-            {{ item.id }}
           </div>
           <div v-else>
             e
@@ -86,19 +85,35 @@ const onDrop = function (event, item) {
 
 <style scoped lang="scss">
 .grid {
+  width: 50%;
+  overflow: hidden;
   background: #262626;
-  border: 1px solid #4D4D4D;
+  border: 2px solid #4D4D4D;
   border-radius: 12px;
+
+  table {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .item_cell {
-  width: 50px;
-  height: 50px;
-  outline: 1px solid white;
+  padding: 30px;
+  outline: 3px solid #4D4D4D;
 }
 
 .item {
-
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1;
+  &::before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    transform: translate(10px, -10px);
+    backdrop-filter: blur(100px);
+  }
 }
 
 .green {

@@ -8,7 +8,7 @@ import close from "../assets/close.png"
 <template>
   <GenericContainer>
     <div class="content">
-      <MockText width="70vw" height="50px"/>
+      <MockText width="52vw" height="40px"/>
       <div class="close_container">
         <img :src="close">
       </div>
