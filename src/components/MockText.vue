@@ -8,14 +8,14 @@
 
   const cssProperties = computed(() => {
     return {
-      "width": this.width,
-      "height": this.height
+      "width": props.width,
+      "height": props.height
     }
   })
 </script>
 
-<template :style="cssProperties">
-  <div></div>
+<template>
+  <div :style="cssProperties"></div>
 </template>
 
 <style scoped>

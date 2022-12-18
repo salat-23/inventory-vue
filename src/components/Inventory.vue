@@ -1,12 +1,22 @@
 <script setup>
 import {ref, onMounted} from "vue";
-import SideBar from "./SideBar"
+import SideBar from "./SideBar.vue"
+import BottomModal from "./BottomModal.vue";
 
 
 </script>
 
 <template>
-  <SideBar />
+  <div class="inventory">
+    <SideBar />
+
+    <BottomModal />
+  </div>
+
 </template>
 
-<style scoped></style>
+<style scoped>
+  .inventory {
+    width: 1000px;
+  }
+</style>
