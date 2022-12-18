@@ -2,6 +2,7 @@
 import {ref, onMounted} from "vue";
 import SideBar from "./SideBar.vue"
 import BottomModal from "./BottomModal.vue";
+import ItemsGrid from "./ItemsGrid.vue";
 
 
 </script>
@@ -9,7 +10,7 @@ import BottomModal from "./BottomModal.vue";
 <template>
   <div class="inventory">
     <SideBar />
-
+    <ItemsGrid />
     <BottomModal />
   </div>
 
