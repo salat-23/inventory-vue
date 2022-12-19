@@ -99,9 +99,6 @@ const startDrag = (event, item) => {
 
 const onDrop = function (event, item) {
   const handItemPosition = event.dataTransfer.getData("item_position");
-  // this.set(items[handItemPosition], "position", item.position);
-  // this.set(items[item.position], "position", handItemPosition);
-  // items[handItemPosition].position = handItemPosition;
   if (item.type === "empty") {
     let swap = items[handItemPosition];
     swap.position = item.position;
@@ -131,8 +128,7 @@ const onDrop = function (event, item) {
         <div :class="'item ' + selectedItem.type"></div>
       </div>
       <div class="controls_container">
-        <h3>id: {{ selectedItem.id }}</h3>
-        <p>type: {{ selectedItem.type }}</p>
+        <h3>{{ selectedItem.type }}</h3>
         <p>amount: {{ selectedItem.amount }}</p>
         <span class="buttons_container">
           <button @click="setAmount($event, selectedItem, selectedItem.amount-1)">-</button>

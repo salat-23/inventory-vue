@@ -1,35 +1,21 @@
-# rlttest
+# Test task for RLT
 
-This template should help get you started developing with Vue 3 in Vite.
+You can drag items around, swap them. If you reload the page - changes will be saved.
 
-## Recommended IDE Setup
+To add a new item, right click on empty cell.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Left-click on an item to open its "properties".
 
-## Customize configuration
+Delete all button in the bottom allows to clear inventory.
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+You can delete specific item or change its amount in the item properties' menu.
 
-## Project Setup
+Use escape or click an empty cell to close properties window. You can also use close button.
 
-```sh
-npm install
-```
+made by salat23
 
-### Compile and Hot-Reload for Development
 
-```sh
-npm run dev
-```
+## Why no sidebar and bottom thing?
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+I seriously tried to do it, but elements did not want to go into the right place.
+I doubt it could be called responsive, but the task was completed nonetheless.
