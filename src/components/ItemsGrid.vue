@@ -2,6 +2,11 @@
 import {computed, onBeforeMount, onMounted, reactive, ref, toRaw} from 'vue'
 import close from "../assets/close.png"
 
+const itemTypes = [
+  "green",
+  "blue",
+  "red"
+]
 const inventorySize = 25;
 const width = 5;
 let updateListTrigger = ref(true);
@@ -14,10 +19,10 @@ const mounted = onBeforeMount(function () {
     items = reactive(JSON.parse(localStorage.getItem("items")))
   } else {
     items = reactive({
-      0: {id: 1, type: "green", amount: 3, position: 0},
-      1: {id: 2, type: "red", amount: 1, position: 1},
-      3: {id: 3, type: "blue", amount: 2, position: 3},
-      4: {id: 4, type: "red", amount: 7, position: 4}
+      0: {type: "green", amount: 3, position: 0},
+      1: {type: "red", amount: 1, position: 1},
+      3: {type: "blue", amount: 2, position: 3},
+      4: {type: "red", amount: 7, position: 4}
     })
   }
 });
@@ -47,6 +52,30 @@ const rows = computed(() => {
   return rows;
 });
 
+const deleteAll = function () {
+  for (let index in items) {
+    items[index] = undefined;
+  }
+}
+
+const deleteItem = function (item) {
+  itemSelected.value = false;
+  items[item.position] = undefined;
+}
+
+const addItem = function (event, item) {
+  event.preventDefault();
+  const randomType = Math.floor(Math.random() * 3);
+  console.log(randomType)
+  items[item.position] = {type: itemTypes[randomType], position: item.position, amount: 1};
+}
+
+const setAmount = function (event, item, amount) {
+  if (amount <= 0) return;
+  items[item.position].amount = amount;
+  selectedItem.amount = amount;
+}
+
 const onClick = function (event, item) {
   itemSelected.value = true;
   for (let field in item) {
@@ -55,6 +84,7 @@ const onClick = function (event, item) {
 }
 
 const onEmptyClick = function (event) {
+  console.log("empty clicked")
   itemSelected.value = false;
   for (let field in selectedItem) {
     selectedItem[field] = undefined;
@@ -88,18 +118,27 @@ const onDrop = function (event, item) {
     items[firstSwapIndex] = swap2;
     items[secondSwapIndex] = swap1;
   }
-  console.log(`moved ${handItemPosition} => ${item.position}`)
   updateListTrigger.value++;
 }
 
 </script>
 
 <template>
-  <div class="grid">
+  <div tabindex="0" @keydown.esc="onEmptyClick($event)" class="grid">
     <div :class="'item_description ' + sideStyle">
       <div class="close" @click="onEmptyClick($event)"><img :src="close"></div>
-      <h3>id: {{ selectedItem.id }}</h3>
-      <p>type: {{ selectedItem.type }}</p>
+      <div class="item_container">
+        <div :class="'item ' + selectedItem.type"></div>
+      </div>
+      <div class="controls_container">
+        <h3>id: {{ selectedItem.id }}</h3>
+        <p>type: {{ selectedItem.type }}</p>
+        <p>amount: {{ selectedItem.amount }}</p>
+        <span class="buttons_container">
+          <button @click="setAmount($event, selectedItem, selectedItem.amount-1)">-</button>
+          <button @click="setAmount($event, selectedItem, selectedItem.amount+1)">+</button></span>
+        <button @click="deleteItem(selectedItem)">Delete</button>
+      </div>
     </div>
     <table v-if="updateListTrigger">
       <tr v-for="row in rows">
@@ -113,7 +152,8 @@ const onDrop = function (event, item) {
           </div>
           <div v-else class="item empty"
                draggable="false"
-               @click="onEmptyClick($event)">
+               @click="onEmptyClick($event)"
+               @contextmenu="addItem($event, item)">
           </div>
           <div class="amount" v-if="item.type!=='empty'">
             {{ item.amount }}
@@ -121,11 +161,15 @@ const onDrop = function (event, item) {
         </td>
       </tr>
     </table>
+    <div class="bottom_controls">
+      <button @click="deleteAll()">Delete all</button>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .grid {
+  outline: none;
   position: relative;
   width: 50%;
   overflow: hidden;
@@ -139,12 +183,53 @@ const onDrop = function (event, item) {
   }
 }
 
+.bottom_controls {
+  padding: 10px;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons_container {
+  display: flex;
+
+  & > * {
+    width: 100px;
+  }
+}
+
+button {
+  cursor: pointer;
+  padding: 10px;
+  width: 90%;
+  background: #FF8888;
+  border: 1px solid #4D4D4D;
+  font-size: 24px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+}
+
 .close {
   position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;
   z-index: 10;
+}
+
+
+.item_container {
+  padding: 50px;
+}
+
+.controls_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .item_description {
